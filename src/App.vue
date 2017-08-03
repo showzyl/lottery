@@ -8,6 +8,8 @@
 <script>
 	// import { Toast } from 'mint-ui'
 
+//	import '../assets/css/mint.css'
+
 	export default {
 		name: 'app',
 		data () {
