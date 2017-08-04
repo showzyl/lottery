@@ -34,7 +34,7 @@
 
     <p>
       <span class="">共 {{stock}} 注</span>
-      <span class="">共 {{stock}} 钱</span>
+      <span class="">共 {{total}} 元</span>
     </p>
 
   </div>
@@ -47,13 +47,12 @@
 
 	Vue.component(Button.name, Button)
 
-//	console.log(core)
-	let choseRed = [], choseBlue = []
-
 	export default {
 		name: 'ssq',
 		data () {
 			return {
+				redNum: 33,
+				blueNum: 15,
 				blue: [],
 				red: [],
 				choseRed: [],
@@ -83,56 +82,67 @@
 
 				const me = this
 
-				let red = []
-				for (let i = 0; i < 33; i++) {
+				for (let i = 0; i < me.redNum; i++) {
 					let k = {}
 					let o = {}
 					let num = (i + 1) + ''
 					o.num = num
 					o.chosen = false
 					k[num] = o
-					red.push(k)
+					me['red'].push(k)
 				}
 
-				me['red'] = red
-
-				let blue = []
-				for (let i = 0; i < 15; i++) {
+				for (let i = 0; i < me.blueNum; i++) {
 					let k = {}
 					let o = {}
 					let num = (i + 1) + ''
 					o.num = num
 					o.chosen = false
 					k[num] = o
-					blue.push(k)
+					me['blue'].push(k)
 				}
-				me['blue'] = blue
 			},
 			addDouble(){
 				const me = this
 				me.double++
+				me.calStock()
 			},
 			minusDouble(){
 				const me = this
 				if (me.double >= 2) {
 					me.double--
 				}
+				me.calStock()
 			},
 			choseAllRed(){
 				const me = this
 				me.batchState(me.red, true)
+				me.choseRed = []
+				for (let i = 0; i < me.redNum; i++) {
+					me.choseRed.push((i + 1) + '')
+				}
+				me.calStock()
 			},
 			clearAllRed(){
 				const me = this
 				me.batchState(me.red, false)
+				me.choseRed = []
+				me.calStock()
 			},
 			choseAllBlue(){
 				const me = this
 				me.batchState(me.blue, true)
+				me.choseBlue = []
+				for (let i = 0; i < me.blueNum; i++) {
+					me.choseBlue.push((i + 1) + '')
+				}
+				me.calStock()
 			},
 			clearAllBlue(){
 				const me = this
 				me.batchState(me.blue, false)
+				me.choseBlue = []
+				me.calStock()
 			},
 			toggleBall(type, i, k){
 				const me = this
@@ -142,18 +152,19 @@
 				Vue.set(me[type][i][k], 'chosen', bChosen)
 
 				if (type === 'red') {
-					if(me[type][i][k]['chosen']){
-						choseRed.push(k)
-          }else{
-						core.rmArrEl(choseRed, k)
-          }
+					if (me[type][i][k]['chosen']) {
+						me.choseRed.push(k)
+					} else {
+						core.rmArrEl(me.choseRed, k)
+					}
 				} else {
-					if(me[type][i][k]['chosen']){
-						choseBlue.push(k)
-					}else{
-						core.rmArrEl(choseBlue, k)
+					if (me[type][i][k]['chosen']) {
+						me.choseBlue.push(k)
+					} else {
+						core.rmArrEl(me.choseBlue, k)
 					}
 				}
+
 				me.calStock()
 			},
 			batchState(arr, state, cb){
@@ -168,23 +179,23 @@
 				})
 			},
 			randomChose(num){
+				console.log(num)
+        // 1注
+
+        // 5注
+
+        // 10注
 
 			},
 			calStock(){
 				const me = this
-//        let red = []
-//				me.batchState(me.red, '', function (items, k, i) {
-//          console.log(items[k]['chosen'])
-//          if(items[k]['chosen']){
-//
-//          }
-//				})
+				let red = me.choseRed.length
+				let blue = me.choseBlue.length
 
-				core.comb(7, 6)
+				me.stock = core.comb(red, 6) * blue
+
+				me.total = me.stock * me.double * 2
 			},
-			calMoney(){
-
-			}
 		}
 	}
 
