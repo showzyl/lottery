@@ -182,7 +182,7 @@
 				console.log(num)
         // 1注
 
-        // 5注
+            // 5注
 
         // 10注
 
@@ -193,6 +193,8 @@
 				let blue = me.choseBlue.length
 
 				me.stock = core.comb(red, 6) * blue
+
+				// 大乐透 me.stock = core.comb(red, 6) * core.comb(blue, 2)
 
 				me.total = me.stock * me.double * 2
 			},
